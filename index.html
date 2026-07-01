@@ -1,0 +1,1067 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Jackson Li's HALC academic resource hub for math, history, and economics notes.">
+  <title>| HALC</title>
+  <link rel="icon" type="image/png" href="hostos-sun-favicon.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Jost:wght@400;500;700&display=swap" rel="stylesheet">
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;500;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="assets/css/styles.css">
+  <style>
+    /* ══ DIRECTORY SECTION ══════════════════════════════════════════════ */
+    .directory-section {
+      background: var(--body-bg);
+      padding-block: 6rem 8rem;
+    }
+
+    .dir-groups {
+      display: flex;
+      flex-direction: column;
+      gap: 5rem;
+      margin-top: 3.5rem;
+    }
+
+    .dir-group__header {
+      display: flex;
+      align-items: center;
+      gap: 1.2rem;
+      margin-bottom: 2rem;
+      justify-content: center;
+    }
+    .dir-group__label {
+      font-family: "Inter", sans-serif;
+      font-size: var(--normal-font-size);
+      font-weight: 400;
+      letter-spacing: 0;
+      text-transform: none;
+      color: rgba(255,255,255,.82);
+      position: relative;
+      padding-bottom: .18rem;
+    }
+    body.light-mode .dir-group__label {
+      color: hsl(217, 31%, 15%);
+    }
+    .dir-group__label::after {
+      content: "";
+      position: absolute;
+      left: 0; bottom: 0;
+      width: 100%; height: 2px;
+      background: var(--gold-color);
+      border-radius: 999px;
+    }
+    .dir-group__line {
+      display: none;
+    }
+
+    .dir-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.25rem 2rem;
+      justify-items: center;
+    }
+
+    .dir-card {
+      display: flex;
+      flex-direction: column;
+      gap: .18rem;
+      padding: .9rem 1.1rem;
+      border-left: 2px solid transparent;
+      border-radius: 2px;
+      transition: background .2s, border-color .2s;
+      width: 100%;
+    }
+    .dir-card:hover {
+      background: rgba(255,255,255,.04);
+    }
+
+    /* colour accent on left border per group */
+    .dir-group--staff   .dir-card { border-left-color: hsl(45,100%,50%); }
+    .dir-group--asst    .dir-card { border-left-color: hsl(202,79%,58%); }
+    .dir-group--tutors  .dir-card { border-left-color: hsl(28,100%,52%); }
+
+    .dir-card__name {
+      font-family: "Inter", sans-serif;
+      font-size: 1.05rem;
+      font-weight: 700;
+      letter-spacing: -.02em;
+      line-height: 1.2;
+    }
+    .dir-group--staff   .dir-card__name { color: hsl(45,100%,62%); }
+    .dir-group--asst    .dir-card__name { color: hsl(202,79%,68%); }
+    .dir-group--tutors  .dir-card__name { color: hsl(28,100%,62%); }
+
+    .dir-card__role {
+      font-family: "Inter", sans-serif;
+      font-size: 1.05rem;
+      font-weight: 400;
+      color: #ffffff;
+      line-height: 1.45;
+    }
+
+    .dir-group--staff .dir-grid,
+    .dir-group--asst .dir-grid,
+    .dir-group--tutors .dir-grid {
+      justify-content: center;
+    }
+    /* light mode */
+    body.light-mode .dir-card:hover { background: rgba(0,0,0,.04); }
+    body.light-mode .dir-group__line { background: rgba(0,0,0,.1); }
+    body.light-mode .dir-card__role  { color: rgba(0,0,0,.45); }
+
+    @media (max-width: 900px) {
+      .dir-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 500px) {
+      .dir-grid { grid-template-columns: 1fr; }
+    }
+
+    /* ── Directory scroll animations ─────────────────────────────────── */
+
+    /* Group header: slides in from left */
+    .dir-group__header {
+      opacity: 0;
+      transform: translateX(-28px);
+      transition: opacity .55s ease, transform .55s ease;
+    }
+    .dir-group__header.dir-visible {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    /* Each card: fades up with stagger */
+    .dir-card {
+      opacity: 0;
+      transform: translateY(18px);
+      transition: opacity .45s ease, transform .45s ease,
+                  background .2s, border-color .2s;
+    }
+    .dir-card.dir-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Underline on label grows in */
+    .dir-group__label::after {
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform .5s ease .2s;
+    }
+    .dir-group__header.dir-visible .dir-group__label::after {
+      transform: scaleX(1);
+    }
+
+    /* Respect reduced-motion */
+    /* Directory section title matches people name size */
+
+    @media (prefers-reduced-motion: reduce) {
+      .dir-group__header,
+      .dir-card {
+        opacity: 1 !important;
+        transform: none !important;
+        transition: none !important;
+      }
+      .dir-group__label::after { transform: scaleX(1) !important; }
+    }
+  </style>
+</head>
+<body>
+  <header class="header" id="header">
+    <nav class="nav container">
+      <a href="#" class="nav__logo">
+        <img src="85aa596e3fba6a7ecd5890282c85e736.jpg" alt="Hostos Community College">
+      </a>
+
+      <button class="nav__toggle" id="nav-toggle" aria-label="Open menu" aria-expanded="false">
+        <span></span>
+        <span></span>
+      </button>
+
+      <div class="nav__menu" id="nav-menu">
+        <ul class="nav__list">
+          <li><a href="#home" class="nav__link">Home</a></li>
+          <li><a href="#objective-scroll" class="nav__link nav__link--rainbow">Objective</a></li>
+          <li><a href="#appointment" class="nav__link">Appointment</a></li>
+          <li class="nav__item nav__item--dropdown">
+            <a href="#math" class="nav__link nav__dropdown-toggle" aria-haspopup="true" aria-expanded="false">
+              Notes
+              <svg class="nav__dropdown-caret" viewBox="0 0 12 8" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <path d="M1 1.5L6 6.5L11 1.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </a>
+            <ul class="nav__dropdown" id="nav-courses-dropdown">
+              <li><a href="#economics" class="nav__link nav__dropdown-link">Economics</a></li>
+              <li><a href="#history" class="nav__link nav__dropdown-link">History</a></li>
+              <li><a href="#math" class="nav__link nav__dropdown-link">Mathematics</a></li>
+            </ul>
+          </li>
+          <li><a href="#directory" class="nav__link">Directory</a></li>
+          <li><a href="#opportunities" class="nav__link">Opportunities</a></li>
+          <li><a href="#halc" class="nav__link">About</a></li>
+          <li><a href="#about" class="nav__link">Author</a></li>
+        </ul>
+      </div>
+
+      <button class="theme-toggle" id="theme-toggle" aria-label="Toggle light mode">
+        <span class="theme-toggle__icon">☀</span>
+        <span class="theme-toggle__label">Light</span>
+      </button>
+    </nav>
+  </header>
+
+  <main class="main">
+<!-- ── INTRO SPLITSCREEN — pinned stacked title that drifts away and dissolves into the page below ── -->
+    <section class="splitintro" id="home">
+      <div class="splitintro-pin">
+        <div class="splitintro-content">
+          <div class="splitintro-title">
+            <span class="splitintro-line splitintro-line--static" data-type="welcome">Welcome to the</span>
+            <span class="splitintro-line splitintro-line--typed" data-type="welcome" id="splitintro-typed-line"></span>
+          </div>
+        </div>
+
+        <div class="splitintro-badge">
+          <svg class="splitintro-badge-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M12 5v14M12 19l-6-6M12 19l6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <span>Scroll to Explore</span>
+        </div>
+
+        <canvas class="splitintro-particles" id="splitintro-particles" aria-hidden="true"></canvas>
+
+        <div class="splitintro-bgfade" aria-hidden="true"></div>
+
+        <!-- ── Floating academic icons ── -->
+        <div class="splitintro-floats" aria-hidden="true">
+          <span class="si-float si-float--1">📚</span>
+          <span class="si-float si-float--2">✏️</span>
+          <span class="si-float si-float--3">🎓</span>
+          <span class="si-float si-float--4">💡</span>
+          <span class="si-float si-float--5">📚</span>
+          <span class="si-float si-float--6">✏️</span>
+          <span class="si-float si-float--7">🎓</span>
+          <span class="si-float si-float--8">💡</span>
+        </div>
+
+        <!-- ── Wave animation ── -->
+        <div class="splitintro-waves" aria-hidden="true">
+          <svg class="waves-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 24 150 28" preserveAspectRatio="none">
+            <defs>
+              <path id="wave-path" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z"/>
+            </defs>
+            <g class="wave-parallax">
+              <use href="#wave-path" class="wave wave--1" x="48" y="0"/>
+              <use href="#wave-path" class="wave wave--2" x="48" y="3"/>
+              <use href="#wave-path" class="wave wave--3" x="48" y="5"/>
+              <use href="#wave-path" class="wave wave--4" x="48" y="7"/>
+            </g>
+          </svg>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ── OBJECTIVE SECTION — scroll-driven cinematic text (mirrors About) ── -->
+    <section class="section objective-section" id="objective-scroll" data-home-anchor>
+      <div class="objective-stage">
+        <p class="objective-big-text" id="obj-text-out"></p>
+        <p class="objective-big-text" id="obj-text-in"></p>
+      </div>
+    </section>
+
+
+
+    <!-- ── SUBJECTS MARQUEE ── -->
+    <section class="subjects-marquee" aria-label="Subjects available at the HALC tutoring centre">
+      <div class="mq-wrap" id="mqWrap">
+        <div class="mq-row" id="mqRow0"><div class="mq-track" id="mqTrack0"></div></div>
+        <div class="mq-row mq-row--mid" id="mqRow1"><div class="mq-track" id="mqTrack1"></div></div>
+        <div class="mq-row" id="mqRow2"><div class="mq-track" id="mqTrack2"></div></div>
+      </div>
+    </section>
+
+    <section class="section appt-section" id="appointment">
+      <div class="container">
+        <div class="section__header center reveal">
+          <span class="section__subtitle">Appointment</span>
+          <h2 class="section__title">Schedule an appointment.</h2>
+        </div>
+
+        <div class="appt-layout">
+          <div class="appt-phone-wrap reveal">
+            <div class="appt-phone halc-svg-float-slow">
+              <svg class="appt-phone-svg" viewBox="0 0 280 560" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <defs>
+                  <linearGradient id="apptScreenGrad" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stop-color="#242424"/>
+                    <stop offset="100%" stop-color="#1c1c1c"/>
+                  </linearGradient>
+                </defs>
+
+                <!-- Side buttons -->
+                <rect x="-1" y="100" width="4" height="22" rx="1.5" fill="#1a0606"/>
+                <rect x="-1" y="132" width="4" height="34" rx="1.5" fill="#1a0606"/>
+                <rect x="-1" y="176" width="4" height="34" rx="1.5" fill="#1a0606"/>
+                <rect x="277" y="148" width="4" height="48" rx="1.5" fill="#1a0606"/>
+
+                <!-- Frame -->
+                <rect x="4" y="4" width="272" height="552" rx="46" fill="#050505" stroke="hsla(0,80%,55%,.55)" stroke-width="2"/>
+                <!-- Inner bezel hairline -->
+                <rect x="10" y="10" width="260" height="540" rx="40" fill="none" stroke="rgba(255,255,255,.06)" stroke-width="1"/>
+                <!-- Screen -->
+                <rect x="14" y="10" width="252" height="536" rx="38" fill="url(#apptScreenGrad)"/>
+
+                <!-- ── Status bar: time left · Dynamic Island center · icons right ── -->
+                <!-- Time -->
+                <text id="apptClock" x="54" y="35" text-anchor="middle" font-family="Inter, sans-serif" font-size="12" font-weight="700" fill="rgba(255,255,255,.9)" dominant-baseline="middle">9:41</text>
+
+                <!-- Dynamic Island pill (centered at top) -->
+                <rect x="94" y="18" width="92" height="24" rx="12" fill="#000"/>
+                <!-- Camera lens, offset toward the right side of the island like a real iPhone -->
+                <circle cx="167" cy="30" r="5.5" fill="#0a0a0c"/>
+                <circle cx="167" cy="30" r="3.4" fill="#1c1d24"/>
+                <circle cx="168.6" cy="28.4" r="1.1" fill="rgba(255,255,255,.22)"/>
+
+                <!-- App header icon -->
+                <rect x="34" y="76" width="28" height="26" rx="6" fill="hsla(41,100%,43%,.16)" stroke="hsl(41,100%,43%)" stroke-width="1.2"/>
+                <line x1="34" y1="86" x2="62" y2="86" stroke="hsl(41,100%,43%)" stroke-width="1.2"/>
+                <line x1="42" y1="74" x2="42" y2="82" stroke="hsl(41,100%,43%)" stroke-width="1.2" stroke-linecap="round"/>
+                <line x1="54" y1="74" x2="54" y2="82" stroke="hsl(41,100%,43%)" stroke-width="1.2" stroke-linecap="round"/>
+
+                <text x="70" y="92" font-family="Inter, sans-serif" font-size="15" font-weight="700" fill="#ffffff">Book a Session</text>
+                <text x="70" y="108" font-family="Inter, sans-serif" font-size="10" fill="rgba(255,255,255,.5)">HALC Tutoring</text>
+
+                <line x1="34" y1="124" x2="246" y2="124" stroke="rgba(255,255,255,.08)" stroke-width="1"/>
+
+                <!-- Weekday row -->
+                <text x="40" y="152" text-anchor="middle" font-family="Inter, sans-serif" font-size="10" fill="rgba(255,255,255,.4)">S</text>
+                <text x="73" y="152" text-anchor="middle" font-family="Inter, sans-serif" font-size="10" fill="rgba(255,255,255,.4)">M</text>
+                <text x="106" y="152" text-anchor="middle" font-family="Inter, sans-serif" font-size="10" fill="rgba(255,255,255,.4)">T</text>
+                <text x="139" y="152" text-anchor="middle" font-family="Inter, sans-serif" font-size="10" fill="rgba(255,255,255,.4)">W</text>
+                <text x="172" y="152" text-anchor="middle" font-family="Inter, sans-serif" font-size="10" fill="rgba(255,255,255,.4)">T</text>
+                <text x="205" y="152" text-anchor="middle" font-family="Inter, sans-serif" font-size="10" fill="rgba(255,255,255,.4)">F</text>
+                <text x="238" y="152" text-anchor="middle" font-family="Inter, sans-serif" font-size="10" fill="rgba(255,255,255,.4)">S</text>
+
+                <!-- Date row, one selected -->
+                <text x="40" y="186" text-anchor="middle" font-family="Inter, sans-serif" font-size="12" fill="rgba(255,255,255,.75)">14</text>
+                <text x="73" y="186" text-anchor="middle" font-family="Inter, sans-serif" font-size="12" fill="rgba(255,255,255,.75)">15</text>
+                <text x="106" y="186" text-anchor="middle" font-family="Inter, sans-serif" font-size="12" fill="rgba(255,255,255,.75)">16</text>
+                <text x="139" y="186" text-anchor="middle" font-family="Inter, sans-serif" font-size="12" fill="rgba(255,255,255,.75)">17</text>
+                <circle cx="172" cy="181" r="15" fill="hsl(41,100%,43%)"/>
+                <text x="172" y="186" text-anchor="middle" font-family="Inter, sans-serif" font-size="12" font-weight="700" fill="#161103">18</text>
+                <text x="205" y="186" text-anchor="middle" font-family="Inter, sans-serif" font-size="12" fill="rgba(255,255,255,.75)">19</text>
+                <text x="238" y="186" text-anchor="middle" font-family="Inter, sans-serif" font-size="12" fill="rgba(255,255,255,.75)">20</text>
+
+                <line x1="34" y1="212" x2="246" y2="212" stroke="rgba(255,255,255,.08)" stroke-width="1"/>
+
+                <text x="34" y="234" font-family="Inter, sans-serif" font-size="10" font-weight="600" letter-spacing="1" fill="rgba(255,255,255,.45)">AVAILABLE TIMES</text>
+
+                <!-- Time slot pills -->
+                <rect x="34" y="248" width="100" height="40" rx="20" fill="none" stroke="rgba(255,255,255,.25)" stroke-width="1.3"/>
+                <text x="84" y="273" text-anchor="middle" font-family="Inter, sans-serif" font-size="11.5" fill="rgba(255,255,255,.8)">10:00 AM</text>
+
+                <rect x="146" y="248" width="100" height="40" rx="20" fill="hsl(41,100%,43%)"/>
+                <text x="196" y="273" text-anchor="middle" font-family="Inter, sans-serif" font-size="11.5" font-weight="700" fill="#161103">1:30 PM</text>
+
+                <rect x="34" y="298" width="100" height="40" rx="20" fill="none" stroke="rgba(255,255,255,.25)" stroke-width="1.3"/>
+                <text x="84" y="323" text-anchor="middle" font-family="Inter, sans-serif" font-size="11.5" fill="rgba(255,255,255,.8)">3:00 PM</text>
+
+                <rect x="146" y="298" width="100" height="40" rx="20" fill="none" stroke="rgba(255,255,255,.25)" stroke-width="1.3"/>
+                <text x="196" y="323" text-anchor="middle" font-family="Inter, sans-serif" font-size="11.5" fill="rgba(255,255,255,.8)">4:15 PM</text>
+
+                <!-- Confirm button -->
+                <rect x="34" y="462" width="212" height="52" rx="26" fill="hsl(41,100%,43%)"/>
+                <text x="140" y="494" text-anchor="middle" font-family="Inter, sans-serif" font-size="14" font-weight="700" fill="#161103">Confirm Booking</text>
+
+                <!-- Home bar (iPhone style — bottom center, pill shape) -->
+                <rect x="95" y="536" width="90" height="5" rx="2.5" fill="rgba(255,255,255,.45)"/>
+              </svg>
+            </div>
+          </div>
+
+          <div class="appt-content reveal" style="--reveal-delay: 150ms">
+            <p class="appt-lead">Book one-on-one tutoring time with the HALC in a couple of minutes — pick a course, pick a time, and you're set.</p>
+
+            <a class="appt-cta-btn" href="https://forms.office.com/pages/responsepage.aspx?id=s_BgbwZfCU6XFZiduozH2GwDC5lX-TJOrAlEjgsVsM5UOVNZUTlTVDNLUjZGNjMxVzYwVjdNUkRJMS4u&route=shorturl" target="_blank" rel="noopener">
+              Schedule Your Appointment ↗
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── APPOINTMENT HOW-TO — sticky phone, scroll-driven steps ── -->
+    <section class="appt-howto-section" id="appt-howto">
+      <div class="appt-howto-pin">
+
+        <div class="appt-howto-phone-col">
+          <div class="appt-howto-phone halc-svg-float-slow" id="howtoPhone" data-step="1">
+            <svg class="appt-phone-svg" viewBox="0 0 280 560" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <defs>
+                <linearGradient id="howtoScreenGrad" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#242424"/>
+                  <stop offset="100%" stop-color="#1c1c1c"/>
+                </linearGradient>
+                <clipPath id="howtoScreenClip">
+                  <rect x="14" y="10" width="252" height="536" rx="38"/>
+                </clipPath>
+              </defs>
+              <!-- Side buttons -->
+              <rect x="-1" y="100" width="4" height="22" rx="1.5" fill="#1a0606"/>
+              <rect x="-1" y="132" width="4" height="34" rx="1.5" fill="#1a0606"/>
+              <rect x="-1" y="176" width="4" height="34" rx="1.5" fill="#1a0606"/>
+              <rect x="277" y="148" width="4" height="48" rx="1.5" fill="#1a0606"/>
+              <!-- Frame -->
+              <rect x="4" y="4" width="272" height="552" rx="46" fill="#050505" stroke="hsla(0,80%,55%,.55)" stroke-width="2"/>
+              <rect x="10" y="10" width="260" height="540" rx="40" fill="none" stroke="rgba(255,255,255,.06)" stroke-width="1"/>
+              <rect x="14" y="10" width="252" height="536" rx="38" fill="url(#howtoScreenGrad)"/>
+              <!-- Status bar -->
+              <text id="howtoClock" x="54" y="35" text-anchor="middle" font-family="Inter, sans-serif" font-size="12" font-weight="700" fill="rgba(255,255,255,.9)" dominant-baseline="middle">9:41</text>
+              <!-- Dynamic Island -->
+              <rect x="94" y="18" width="92" height="24" rx="12" fill="#000"/>
+              <circle cx="167" cy="30" r="5.5" fill="#0a0a0c"/>
+              <circle cx="167" cy="30" r="3.4" fill="#1c1d24"/>
+              <circle cx="168.6" cy="28.4" r="1.1" fill="rgba(255,255,255,.22)"/>
+              <!-- Home bar -->
+              <rect x="95" y="536" width="90" height="5" rx="2.5" fill="rgba(255,255,255,.45)"/>
+              <!-- Step dots (5) -->
+              <g id="howtoStepDots" clip-path="url(#howtoScreenClip)">
+                <circle class="howto-dot" data-dot="1" cx="101.5" cy="556" r="3.5" fill="hsl(41,100%,43%)" opacity="1"/>
+                <circle class="howto-dot" data-dot="2" cx="112.5" cy="556" r="3.5" fill="rgba(255,255,255,.3)" opacity="1"/>
+                <circle class="howto-dot" data-dot="3" cx="123.5" cy="556" r="3.5" fill="rgba(255,255,255,.3)" opacity="1"/>
+                <circle class="howto-dot" data-dot="4" cx="134.5" cy="556" r="3.5" fill="rgba(255,255,255,.3)" opacity="1"/>
+                <circle class="howto-dot" data-dot="5" cx="145.5" cy="556" r="3.5" fill="rgba(255,255,255,.3)" opacity="1"/>
+                <circle class="howto-dot" data-dot="6" cx="156.5" cy="556" r="3.5" fill="rgba(255,255,255,.3)" opacity="1"/>
+                <circle class="howto-dot" data-dot="7" cx="167.5" cy="556" r="3.5" fill="rgba(255,255,255,.3)" opacity="1"/>
+                <circle class="howto-dot" data-dot="8" cx="178.5" cy="556" r="3.5" fill="rgba(255,255,255,.3)" opacity="1"/>
+              </g>
+
+              <!-- ═══ STEP 1: website Schedule button ═══ -->
+              <g class="howto-screen howto-screen--1">
+                <text x="140" y="120" text-anchor="middle" font-family="Inter, sans-serif" font-size="9" font-weight="700" letter-spacing="1.5" fill="hsl(41,100%,55%)">HALC TUTORING</text>
+                <text x="140" y="150" text-anchor="middle" font-family="Inter, sans-serif" font-size="19" font-weight="700" fill="#ffffff">Schedule an</text>
+                <text x="140" y="174" text-anchor="middle" font-family="Inter, sans-serif" font-size="19" font-weight="700" fill="#ffffff">appointment.</text>
+                <text x="140" y="208" text-anchor="middle" font-family="Inter, sans-serif" font-size="9.5" fill="rgba(255,255,255,.6)">Book one-on-one tutoring time with</text>
+                <text x="140" y="224" text-anchor="middle" font-family="Inter, sans-serif" font-size="9.5" fill="rgba(255,255,255,.6)">the HALC in a couple of minutes.</text>
+                <g id="howtoConfirmBtn1">
+                  <rect id="howtoConfirmBtnBg" x="56" y="260" width="168" height="50" fill="transparent" stroke="hsl(41,100%,43%)" stroke-width="1.3"/>
+                  <text id="howtoConfirmBtnText1" x="140" y="281" text-anchor="middle" font-family="Inter, sans-serif" font-size="8.5" font-weight="700" letter-spacing=".04em" fill="hsl(41,100%,55%)">SCHEDULE YOUR</text>
+                  <text id="howtoConfirmBtnText2" x="140" y="294" text-anchor="middle" font-family="Inter, sans-serif" font-size="8.5" font-weight="700" letter-spacing=".04em" fill="hsl(41,100%,55%)">APPOINTMENT ↗</text>
+                </g>
+              </g>
+
+              <!-- ═══ STEP 2: CUNYfirst sign-in ═══ -->
+              <g class="howto-screen howto-screen--2">
+                <rect x="34" y="74" width="28" height="28" rx="6" fill="#ffffff"/>
+                <rect x="38" y="78" width="9" height="9" fill="#F25022"/>
+                <rect x="49" y="78" width="9" height="9" fill="#7FBA00"/>
+                <rect x="38" y="89" width="9" height="9" fill="#00A4EF"/>
+                <rect x="49" y="89" width="9" height="9" fill="#FFB900"/>
+                <text x="70" y="94" font-family="Inter, sans-serif" font-size="14" font-weight="600" fill="rgba(255,255,255,.85)">Sign in</text>
+                <text x="34" y="128" font-family="Inter, sans-serif" font-size="9" font-weight="600" letter-spacing=".06em" fill="rgba(255,255,255,.4)">CUNYFIRST USERNAME</text>
+                <rect x="34" y="136" width="212" height="34" rx="6" fill="rgba(255,255,255,.06)" stroke="hsl(41,100%,43%)" stroke-width="1.3"/>
+                <text x="46" y="158" font-family="Inter, sans-serif" font-size="10" fill="hsl(41,100%,62%)">John.Doe72@login.cuny.edu</text>
+                <text x="34" y="188" font-family="Inter, sans-serif" font-size="9.5" fill="rgba(255,255,255,.45)">Can't access your account?</text>
+                <g id="howtoNextBtn">
+                  <rect id="howtoNextBg" x="150" y="208" width="96" height="40" rx="5" fill="transparent" stroke="hsl(41,100%,43%)" stroke-width="1.3"/>
+                  <text id="howtoNextText" x="198" y="232" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" font-weight="700" fill="hsl(41,100%,55%)">Next</text>
+                </g>
+                <text x="140" y="290" text-anchor="middle" font-family="Inter, sans-serif" font-size="9" fill="rgba(255,255,255,.4)">Use your CUNYfirst login —</text>
+                <text x="140" y="304" text-anchor="middle" font-family="Inter, sans-serif" font-size="9" fill="rgba(255,255,255,.4)">no separate account to create.</text>
+              </g>
+
+              <!-- ═══ STEP 3: CUNY portal login ═══ -->
+              <g class="howto-screen howto-screen--3">
+                <rect x="34" y="68" width="44" height="36" rx="4" fill="#ffffff"/>
+                <text x="56" y="86" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" font-weight="800" fill="#003366">CU</text>
+                <text x="56" y="98" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" font-weight="800" fill="#003366">NY</text>
+                <text x="34" y="124" font-family="Inter, sans-serif" font-size="12" font-weight="700" fill="#ffffff">Web Applications Login</text>
+                <text x="34" y="144" font-family="Inter, sans-serif" font-size="8" fill="rgba(255,255,255,.5)">Log in with your CUNY Login credentials:</text>
+                <text x="34" y="168" font-family="Inter, sans-serif" font-size="9" font-weight="600" letter-spacing=".06em" fill="rgba(255,255,255,.4)">USERNAME</text>
+                <rect x="34" y="176" width="212" height="32" rx="5" fill="rgba(255,255,255,.06)" stroke="hsl(41,100%,43%)" stroke-width="1.3"/>
+                <text x="46" y="197" font-family="Inter, sans-serif" font-size="10" fill="hsl(41,100%,62%)">John.Doe72@login.cuny.edu</text>
+                <text x="34" y="222" font-family="Inter, sans-serif" font-size="9" font-weight="600" letter-spacing=".06em" fill="rgba(255,255,255,.4)">PASSWORD</text>
+                <rect x="34" y="230" width="212" height="32" rx="5" fill="rgba(255,255,255,.06)" stroke="rgba(255,255,255,.18)" stroke-width="1"/>
+                <text x="46" y="251" font-family="Inter, sans-serif" font-size="11" fill="rgba(255,255,255,.6)">••••••••</text>
+                <g id="howtoLoginBtn">
+                  <rect id="howtoLoginBg" x="34" y="276" width="212" height="38" rx="5" fill="transparent" stroke="hsl(41,100%,43%)" stroke-width="1.3"/>
+                  <text id="howtoLoginText" x="140" y="300" text-anchor="middle" font-family="Inter, sans-serif" font-size="11.5" font-weight="700" fill="hsl(41,100%,55%)">Login</text>
+                </g>
+                <text x="140" y="338" text-anchor="middle" font-family="Inter, sans-serif" font-size="9" fill="rgba(255,255,255,.4)">CUNY's own portal — a second,</text>
+                <text x="140" y="352" text-anchor="middle" font-family="Inter, sans-serif" font-size="9" fill="rgba(255,255,255,.4)">separate login after Microsoft.</text>
+              </g>
+
+              <!-- ═══ STEP 4: Start Now ═══ -->
+              <g class="howto-screen howto-screen--4">
+                <text x="140" y="100" text-anchor="middle" font-family="Inter, sans-serif" font-size="13" font-weight="700" fill="#ffffff">HALC Tutoring</text>
+                <text x="140" y="118" text-anchor="middle" font-family="Inter, sans-serif" font-size="13" font-weight="700" fill="#ffffff">Request Form</text>
+                <line x1="34" y1="134" x2="246" y2="134" stroke="rgba(255,255,255,.08)" stroke-width="1"/>
+                <text x="140" y="160" text-anchor="middle" font-family="Inter, sans-serif" font-size="9.5" fill="rgba(255,255,255,.55)">In-person · Mon–Thu, 11am–3pm &amp; 6–8pm</text>
+                <text x="140" y="176" text-anchor="middle" font-family="Inter, sans-serif" font-size="9.5" fill="rgba(255,255,255,.55)">Virtual · Mon–Thu, 12–8pm &amp; Fri 11am–3pm</text>
+                <text x="140" y="204" text-anchor="middle" font-family="Inter, sans-serif" font-size="9" fill="rgba(255,255,255,.4)">Answer a few quick questions to</text>
+                <text x="140" y="218" text-anchor="middle" font-family="Inter, sans-serif" font-size="9" fill="rgba(255,255,255,.4)">match with an available tutor.</text>
+                <g id="howtoStartNowBtn">
+                  <rect id="howtoStartNowBg" x="34" y="462" width="212" height="50" rx="25" fill="transparent" stroke="hsl(41,100%,43%)" stroke-width="1.3"/>
+                  <text id="howtoStartNowText" x="140" y="493" text-anchor="middle" font-family="Inter, sans-serif" font-size="13" font-weight="700" fill="hsl(41,100%,55%)">Start Now</text>
+                </g>
+              </g>
+
+              <!-- ═══ STEP 5: modality + subject ═══ -->
+              <g class="howto-screen howto-screen--5">
+                <rect x="34" y="74" width="20" height="20" rx="4" fill="hsl(41,100%,43%)"/>
+                <text x="44" y="88" text-anchor="middle" font-family="Inter, sans-serif" font-size="10" font-weight="700" fill="#161103">8</text>
+                <text x="62" y="89" font-family="Inter, sans-serif" font-size="9.5" fill="rgba(255,255,255,.75)">Virtual or in-person tutoring?</text>
+                <circle id="howtoModalityCircle" cx="42" cy="116" r="5" fill="hsl(41,100%,43%)" stroke="hsl(41,100%,43%)" stroke-width="1.3"/>
+                <text x="54" y="120" font-family="Inter, sans-serif" font-size="10" fill="rgba(255,255,255,.8)">In-person</text>
+                <circle cx="42" cy="142" r="5" fill="none" stroke="rgba(255,255,255,.3)" stroke-width="1.3"/>
+                <text x="54" y="146" font-family="Inter, sans-serif" font-size="10" fill="rgba(255,255,255,.6)">Virtual</text>
+                <line x1="34" y1="168" x2="246" y2="168" stroke="rgba(255,255,255,.08)" stroke-width="1"/>
+                <rect x="34" y="182" width="20" height="20" rx="4" fill="hsl(41,100%,43%)"/>
+                <text x="44" y="196" text-anchor="middle" font-family="Inter, sans-serif" font-size="10" font-weight="700" fill="#161103">9</text>
+                <text x="62" y="197" font-family="Inter, sans-serif" font-size="9.5" fill="rgba(255,255,255,.75)">Subject (in-person)</text>
+                <circle id="howtoSubjectCircle" cx="42" cy="224" r="5" fill="hsl(41,100%,43%)" stroke="hsl(41,100%,43%)" stroke-width="1.3"/>
+                <text x="54" y="228" font-family="Inter, sans-serif" font-size="10" fill="rgba(255,255,255,.8)">MAT 150</text>
+                <circle cx="42" cy="250" r="5" fill="none" stroke="rgba(255,255,255,.3)" stroke-width="1.3"/>
+                <text x="54" y="254" font-family="Inter, sans-serif" font-size="10" fill="rgba(255,255,255,.6)">MAT 210</text>
+                <circle cx="42" cy="276" r="5" fill="none" stroke="rgba(255,255,255,.3)" stroke-width="1.3"/>
+                <text x="54" y="280" font-family="Inter, sans-serif" font-size="10" fill="rgba(255,255,255,.6)">ECO 101</text>
+              </g>
+
+              <!-- ═══ STEP 6: tutor + time table ═══ -->
+              <g class="howto-screen howto-screen--6">
+                <rect x="34" y="74" width="20" height="20" rx="4" fill="hsl(41,100%,43%)"/>
+                <text x="44" y="88" text-anchor="middle" font-family="Inter, sans-serif" font-size="10" font-weight="700" fill="#161103">10</text>
+                <text x="62" y="89" font-family="Inter, sans-serif" font-size="9.5" fill="rgba(255,255,255,.75)">MAT 150 (in-person)</text>
+                <!-- mini schedule table -->
+                <rect x="34" y="104" width="212" height="18" fill="rgba(255,255,255,.08)"/>
+                <text x="84"  y="116" text-anchor="middle" font-family="Inter, sans-serif" font-size="8" font-weight="700" fill="rgba(255,255,255,.7)">Mon</text>
+                <text x="138" y="116" text-anchor="middle" font-family="Inter, sans-serif" font-size="8" font-weight="700" fill="rgba(255,255,255,.7)">Tue</text>
+                <text x="192" y="116" text-anchor="middle" font-family="Inter, sans-serif" font-size="8" font-weight="700" fill="rgba(255,255,255,.7)">Wed</text>
+                <line x1="34" y1="122" x2="246" y2="122" stroke="rgba(255,255,255,.1)" stroke-width="1"/>
+                <circle cx="84" cy="133" r="6" fill="hsla(41,100%,43%,.22)" stroke="hsl(41,100%,55%)" stroke-width="1"/>
+                <text x="84" y="136" text-anchor="middle" font-family="Inter, sans-serif" font-size="7.5" font-weight="700" fill="hsl(41,100%,68%)">A</text>
+                <circle cx="138" cy="133" r="6" fill="hsla(202,79%,58%,.22)" stroke="hsl(202,79%,65%)" stroke-width="1"/>
+                <text x="138" y="136" text-anchor="middle" font-family="Inter, sans-serif" font-size="7.5" font-weight="700" fill="hsl(202,79%,75%)">B</text>
+                <circle cx="192" cy="133" r="6" fill="hsla(202,79%,58%,.22)" stroke="hsl(202,79%,65%)" stroke-width="1"/>
+                <text x="192" y="136" text-anchor="middle" font-family="Inter, sans-serif" font-size="7.5" font-weight="700" fill="hsl(202,79%,75%)">B</text>
+                <line x1="34" y1="144" x2="246" y2="144" stroke="rgba(255,255,255,.06)" stroke-width="1"/>
+                <circle cx="84" cy="155" r="6" fill="hsla(41,100%,43%,.22)" stroke="hsl(41,100%,55%)" stroke-width="1"/>
+                <text x="84" y="158" text-anchor="middle" font-family="Inter, sans-serif" font-size="7.5" font-weight="700" fill="hsl(41,100%,68%)">A</text>
+                <circle cx="138" cy="155" r="6" fill="hsla(174,68%,48%,.22)" stroke="hsl(174,68%,58%)" stroke-width="1"/>
+                <text x="138" y="158" text-anchor="middle" font-family="Inter, sans-serif" font-size="7.5" font-weight="700" fill="hsl(174,68%,68%)">C</text>
+                <circle cx="192" cy="155" r="6" fill="hsla(202,79%,58%,.22)" stroke="hsl(202,79%,65%)" stroke-width="1"/>
+                <text x="192" y="158" text-anchor="middle" font-family="Inter, sans-serif" font-size="7.5" font-weight="700" fill="hsl(202,79%,75%)">B</text>
+                <rect x="34" y="104" width="212" height="58" rx="4" fill="none" stroke="rgba(255,255,255,.18)" stroke-width="1"/>
+                <line x1="84" y1="104" x2="84" y2="162" stroke="rgba(255,255,255,.08)" stroke-width="1"/>
+                <line x1="138" y1="104" x2="138" y2="162" stroke="rgba(255,255,255,.08)" stroke-width="1"/>
+                <line x1="192" y1="104" x2="192" y2="162" stroke="rgba(255,255,255,.08)" stroke-width="1"/>
+                <text x="34" y="184" font-family="Inter, sans-serif" font-size="9" font-weight="600" letter-spacing=".06em" fill="rgba(255,255,255,.4)">PICK A TUTOR</text>
+                <circle id="howtoTutorCircle" cx="42" cy="206" r="5" fill="none" stroke="rgba(255,255,255,.3)" stroke-width="1.3"/>
+                <circle cx="60" cy="206" r="8" fill="hsla(41,100%,43%,.22)" stroke="hsl(41,100%,55%)" stroke-width="1"/>
+                <text x="60" y="209" text-anchor="middle" font-family="Inter, sans-serif" font-size="8" font-weight="700" fill="hsl(41,100%,68%)">A</text>
+                <text x="76" y="210" font-family="Inter, sans-serif" font-size="10" fill="rgba(255,255,255,.8)">Tutor A</text>
+                <circle cx="42" cy="232" r="5" fill="none" stroke="rgba(255,255,255,.3)" stroke-width="1.3"/>
+                <circle cx="60" cy="232" r="8" fill="hsla(202,79%,58%,.22)" stroke="hsl(202,79%,65%)" stroke-width="1"/>
+                <text x="60" y="235" text-anchor="middle" font-family="Inter, sans-serif" font-size="8" font-weight="700" fill="hsl(202,79%,75%)">B</text>
+                <text x="76" y="236" font-family="Inter, sans-serif" font-size="10" fill="rgba(255,255,255,.6)">Tutor B</text>
+                <circle cx="42" cy="258" r="5" fill="none" stroke="rgba(255,255,255,.3)" stroke-width="1.3"/>
+                <circle cx="60" cy="258" r="8" fill="hsla(174,68%,48%,.22)" stroke="hsl(174,68%,58%)" stroke-width="1"/>
+                <text x="60" y="261" text-anchor="middle" font-family="Inter, sans-serif" font-size="8" font-weight="700" fill="hsl(174,68%,68%)">C</text>
+                <text x="76" y="262" font-family="Inter, sans-serif" font-size="10" fill="rgba(255,255,255,.6)">Tutor C</text>
+              </g>
+
+              <!-- ═══ STEP 7: date, time, phone + submit ═══ -->
+              <g class="howto-screen howto-screen--7">
+                <text x="34" y="90" font-family="Inter, sans-serif" font-size="9" font-weight="600" letter-spacing=".06em" fill="rgba(255,255,255,.4)">APPOINTMENT DATE</text>
+                <rect id="howtoDateCircleBg" x="34" y="98" width="212" height="32" rx="6" fill="rgba(255,255,255,.06)" stroke="rgba(255,255,255,.2)" stroke-width="1"/>
+                <text id="howtoDateNum" x="46" y="119" font-family="Inter, sans-serif" font-size="11" fill="rgba(255,255,255,.8)">7/22/2026</text>
+                <text x="34" y="152" font-family="Inter, sans-serif" font-size="9" font-weight="600" letter-spacing=".06em" fill="rgba(255,255,255,.4)">TIME</text>
+                <rect x="34"  y="160" width="98" height="32" rx="6" fill="none" stroke="rgba(255,255,255,.2)" stroke-width="1"/>
+                <text x="83"  y="180" text-anchor="middle" font-family="Inter, sans-serif" font-size="10.5" fill="rgba(255,255,255,.7)">3pm – 4pm</text>
+                <g id="howtoStepTime">
+                  <rect id="howtoTimePillBg" x="140" y="160" width="106" height="32" rx="6" fill="hsl(41,100%,43%)"/>
+                  <text id="howtoTimePillText" x="193" y="180" text-anchor="middle" font-family="Inter, sans-serif" font-size="10.5" font-weight="700" fill="#161103">4pm – 5pm</text>
+                </g>
+                <text x="34" y="218" font-family="Inter, sans-serif" font-size="9" font-weight="600" letter-spacing=".06em" fill="rgba(255,255,255,.4)">PHONE NUMBER</text>
+                <rect x="34" y="226" width="212" height="32" rx="6" fill="rgba(255,255,255,.06)" stroke="rgba(255,255,255,.18)" stroke-width="1"/>
+                <text x="46" y="247" font-family="Inter, sans-serif" font-size="10.5" fill="rgba(255,255,255,.8)">(718) 555-0123</text>
+                <g id="howtoSubmitBtn">
+                  <rect id="howtoSubmitBg" x="34" y="462" width="212" height="50" rx="25" fill="transparent" stroke="hsl(41,100%,43%)" stroke-width="1.3"/>
+                  <text id="howtoSubmitText" x="140" y="493" text-anchor="middle" font-family="Inter, sans-serif" font-size="14" font-weight="700" fill="hsl(41,100%,55%)">Submit</text>
+                </g>
+              </g>
+
+              <!-- ═══ STEP 8: email confirmation ═══ -->
+              <g class="howto-screen howto-screen--8">
+                <text x="34" y="82" font-family="Inter, sans-serif" font-size="14" font-weight="700" fill="#ffffff">Inbox</text>
+                <line x1="34" y1="94" x2="246" y2="94" stroke="rgba(255,255,255,.08)" stroke-width="1"/>
+                <g id="howtoConfirmGroup">
+                  <rect x="20" y="102" width="240" height="96" rx="10" fill="hsla(41,100%,43%,.1)" stroke="hsl(41,100%,43%)" stroke-width="1.3"/>
+                  <circle id="howtoEmailDot" cx="34" cy="133" r="4" fill="hsl(41,100%,43%)"/>
+                  <text x="46" y="124" font-family="Inter, sans-serif" font-size="10" font-weight="700" fill="#ffffff">HALC Tutoring</text>
+                  <text x="224" y="124" text-anchor="end" font-family="Inter, sans-serif" font-size="8.5" fill="rgba(255,255,255,.35)">Just now</text>
+                  <text x="46" y="140" font-family="Inter, sans-serif" font-size="11" font-weight="700" fill="hsl(41,100%,55%)">✓ Appointment Confirmed</text>
+                  <text x="46" y="157" font-family="Inter, sans-serif" font-size="9.5" fill="rgba(255,255,255,.5)">Wednesday, 4pm – 5pm · In-Person</text>
+                  <rect x="44" y="166" width="170" height="26" rx="6" fill="rgba(255,255,255,.05)" stroke="rgba(255,255,255,.12)" stroke-width="1"/>
+                  <text x="52" y="183" font-family="Inter, sans-serif" font-size="9.5" font-weight="600" fill="rgba(255,255,255,.85)">Room C-596 · Hostos HALC</text>
+                </g>
+              </g>
+
+            </svg>
+          </div>
+        </div>
+
+        <div class="appt-howto-steps-col">
+          <div class="appt-howto-step-stage">
+            <div class="appt-howto-step" data-step="1">
+              <span class="appt-howto-num">01</span>
+              <h3 class="appt-howto-title">Click <span class="appt-gold">"Schedule Your Appointment."</span></h3>
+              <p class="appt-howto-desc">It opens the HALC's <span class="appt-lavender">official booking form</span> in a new tab — nothing to download first.</p>
+            </div>
+            <div class="appt-howto-step" data-step="2">
+              <span class="appt-howto-num">02</span>
+              <h3 class="appt-howto-title">Sign in with your <span class="appt-gold">CUNYfirst username.</span></h3>
+              <p class="appt-howto-desc">Use your <span class="appt-lavender">CUNYfirst login</span> (e.g. John.Doe72@login.cuny.edu) — the same one you use for CUNY apps.</p>
+            </div>
+            <div class="appt-howto-step" data-step="3">
+              <span class="appt-howto-num">03</span>
+              <h3 class="appt-howto-title">Log in again on the <span class="appt-gold">CUNY portal.</span></h3>
+              <p class="appt-howto-desc">After Microsoft, you'll hit a second <span class="appt-lavender">CUNY login screen</span> — enter the same username and password, then click <strong>Login.</strong></p>
+            </div>
+            <div class="appt-howto-step" data-step="4">
+              <span class="appt-howto-num">04</span>
+              <h3 class="appt-howto-title">Click <span class="appt-gold">Start Now</span> and answer the questions.</h3>
+              <p class="appt-howto-desc">This kicks off the <span class="appt-lavender">Tutoring Request Form.</span></p>
+            </div>
+            <div class="appt-howto-step" data-step="5">
+              <span class="appt-howto-num">05</span>
+              <h3 class="appt-howto-title">Choose your <span class="appt-gold">modality and subject.</span></h3>
+              <p class="appt-howto-desc">Pick <span class="appt-lavender">in-person or virtual,</span> then select the subject you need help with.</p>
+            </div>
+            <div class="appt-howto-step" data-step="6">
+              <span class="appt-howto-num">06</span>
+              <h3 class="appt-howto-title">Pick a <span class="appt-gold">tutor and time</span> from the table.</h3>
+              <p class="appt-howto-desc">The schedule shows <span class="appt-lavender">which tutor is available</span> for each day and hour.</p>
+            </div>
+            <div class="appt-howto-step" data-step="7">
+              <span class="appt-howto-num">07</span>
+              <h3 class="appt-howto-title">Select a <span class="appt-gold">date and time,</span> add your phone number.</h3>
+              <p class="appt-howto-desc">Fill in your <span class="appt-lavender">appointment date, time, and phone number,</span> then hit <strong>Submit.</strong></p>
+            </div>
+            <div class="appt-howto-step" data-step="8">
+              <span class="appt-howto-num">08</span>
+              <h3 class="appt-howto-title">Watch <span class="appt-gold">your email.</span></h3>
+              <p class="appt-howto-desc">You'll get a confirmation with your <span class="appt-lavender">tutor, time, and room</span> (or a Teams link if it's virtual).</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section courses" id="economics">
+      <div class="symbol-field" aria-hidden="true">
+        <span class="sym" data-depth="0.4" style="--sx:1%;  --sy:6%;  --sr:-10deg; --ss:2.4; --sc:hsl(54,100%,48%)">$</span>
+        <span class="sym" data-depth="0.5" style="--sx:3%;  --sy:38%; --sr:15deg;  --ss:1.4; --sc:hsl(202,79%,58%)">≈</span>
+        <span class="sym" data-depth="0.4" style="--sx:2%;  --sy:66%; --sr:-16deg; --ss:1.5; --sc:hsl(54,100%,48%)">μ</span>
+        <span class="sym" data-depth="0.2" style="--sx:1%;  --sy:84%; --sr:-5deg;  --ss:1.3; --sc:hsl(270,55%,62%)">∑</span>
+        <span class="sym" data-depth="0.6" style="--sx:91%; --sy:6%;  --sr:8deg;   --ss:1.8; --sc:hsl(174,68%,48%)">%</span>
+        <span class="sym" data-depth="0.7" style="--sx:93%; --sy:30%; --sr:22deg;  --ss:1.1; --sc:hsl(356,74%,58%)">€</span>
+        <span class="sym" data-depth="0.3" style="--sx:91%; --sy:58%; --sr:-6deg;  --ss:2.0; --sc:hsl(41,100%,55%)">↗</span>
+        <span class="sym" data-depth="0.6" style="--sx:92%; --sy:83%; --sr:10deg;  --ss:1.3; --sc:hsl(174,68%,48%)">%</span>
+      </div>
+      <div class="container">
+        <div class="section__header center reveal">
+          <span class="section__subtitle">Economics</span>
+          <h2 class="section__title">Foundations for economic thinking.</h2>
+        </div>
+        <div class="course-grid course-grid--two">
+          <a href="courses/eco101.html" class="course-card course-card--eco101 reveal reveal--card">
+            <img src="assets/img/provided/economics-yuan-usd.webp" alt="">
+            <h3>ECO 101</h3>
+            <p>Microeconomics</p>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section courses courses--alt" id="history">
+      <div class="symbol-field" aria-hidden="true">
+        <span class="sym" data-depth="0.4" style="--sx:1%;  --sy:6%;  --sr:-8deg;  --ss:2.0; --sc:hsl(41,100%,55%)">⚑</span>
+        <span class="sym" data-depth="0.5" style="--sx:3%;  --sy:38%; --sr:12deg;  --ss:1.4; --sc:hsl(356,74%,58%)">⚖</span>
+        <span class="sym" data-depth="0.4" style="--sx:2%;  --sy:68%; --sr:-10deg; --ss:1.5; --sc:hsl(202,79%,58%)">1865</span>
+        <span class="sym" data-depth="0.3" style="--sx:1%;  --sy:85%; --sr:-14deg; --ss:1.2; --sc:hsl(174,68%,48%)">✦</span>
+        <span class="sym" data-depth="0.6" style="--sx:91%; --sy:6%;  --sr:10deg;  --ss:1.6; --sc:hsl(202,79%,58%)">1776</span>
+        <span class="sym" data-depth="0.7" style="--sx:93%; --sy:30%; --sr:18deg;  --ss:1.0; --sc:hsl(270,55%,62%)">⊕</span>
+        <span class="sym" data-depth="0.2" style="--sx:91%; --sy:58%; --sr:-5deg;  --ss:2.2; --sc:hsl(41,100%,55%)">★</span>
+        <span class="sym" data-depth="0.4" style="--sx:92%; --sy:83%; --sr:8deg;   --ss:1.3; --sc:hsl(41,100%,55%)">★</span>
+      </div>
+      <div class="container">
+        <div class="section__header center reveal">
+          <span class="section__subtitle">History</span>
+          <h2 class="section__title">United States history resources.</h2>
+        </div>
+        <div class="course-grid course-grid--four">
+          <a href="courses/his210.html" class="course-card course-card--his210 reveal reveal--card" style="--reveal-delay: 0ms">
+            <img src="History/d73db351851a5090a79740d9665db3ad.jpg" alt="">
+            <h3>HIS 210</h3>
+            <p>United States History: Through the Civil War</p>
+          </a>
+          <a href="courses/his211.html" class="course-card course-card--his211 reveal reveal--card" style="--reveal-delay: 110ms">
+            <img src="assets/img/provided/history-us-ussr-flags.webp" alt="">
+            <h3>HIS 211</h3>
+            <p>United States History: Reconstruction to the Present</p>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section courses" id="math">
+      <div class="symbol-field" aria-hidden="true">
+        <span class="sym" data-depth="0.3" style="--sx:1%;  --sy:6%;  --sr:-12deg; --ss:2.2; --sc:hsl(174,68%,48%)">∫</span>
+        <span class="sym" data-depth="0.5" style="--sx:3%;  --sy:38%; --sr:10deg;  --ss:1.5; --sc:hsl(202,79%,58%)">∂</span>
+        <span class="sym" data-depth="0.3" style="--sx:2%;  --sy:66%; --sr:-18deg; --ss:1.6; --sc:hsl(41,100%,55%)">λ</span>
+        <span class="sym" data-depth="0.4" style="--sx:1%;  --sy:85%; --sr:8deg;   --ss:1.3; --sc:hsl(356,74%,58%)">√</span>
+        <span class="sym" data-depth="0.6" style="--sx:91%; --sy:6%;  --sr: 8deg;  --ss:2.6; --sc:hsl(41,100%,55%)">Σ</span>
+        <span class="sym" data-depth="0.7" style="--sx:93%; --sy:30%; --sr:20deg;  --ss:1.1; --sc:hsl(174,68%,48%)">∞</span>
+        <span class="sym" data-depth="0.2" style="--sx:91%; --sy:58%; --sr:-6deg;  --ss:1.8; --sc:hsl(270,55%,62%)">π</span>
+        <span class="sym" data-depth="0.5" style="--sx:92%; --sy:83%; --sr:6deg;   --ss:1.2; --sc:hsl(202,79%,58%)">Δ</span>
+      </div>
+      <div class="container">
+        <div class="section__header center reveal">
+          <span class="section__subtitle">Mathematics</span>
+          <h2 class="section__title">Math notes by course.</h2>
+        </div>
+        <div class="course-grid course-grid--four">
+          <a href="courses/mat150.html" class="course-card course-card--mat150 reveal reveal--card" style="--reveal-delay: 0ms">
+            <img src="assets/img/provided/mat150-quadratic-formula.webp" alt="">
+            <h3>MAT 150</h3>
+            <p>College Algebra with Trigonometric Functions</p>
+          </a>
+          <a href="courses/mat210.html" class="course-card course-card--mat210 reveal reveal--card" style="--reveal-delay: 90ms">
+            <img src="assets/img/provided/calc1-limit-definition.webp" alt="">
+            <h3>MAT 210</h3>
+            <p>Calculus 1</p>
+          </a>
+          <a href="courses/mat310.html" class="course-card course-card--mat310 reveal reveal--card" style="--reveal-delay: 180ms">
+            <img src="assets/img/provided/calc3-greens-theorem.webp" alt="">
+            <h3>MAT 310</h3>
+            <p>Calculus 3</p>
+          </a>
+          <a href="courses/mat320.html" class="course-card course-card--mat320 reveal reveal--card" style="--reveal-delay: 270ms">
+            <img src="assets/img/provided/linear-algebra-av-lambda-v.webp" alt="">
+            <h3>MAT 320</h3>
+            <p>Linear Algebra with Vector Analysis</p>
+          </a>
+        </div>
+      </div>
+    </section>
+
+
+
+
+    <section class="section directory-section" id="directory">
+      <div class="container">
+        <div class="section__header center reveal">
+          <span class="section__subtitle">Directory</span>
+          <h2 class="section__title">Meet the HALC team.</h2>
+        </div>
+
+        <div class="dir-groups">
+
+          <!-- Office Staff -->
+          <div class="dir-group dir-group--staff reveal">
+            <div class="dir-group__header">
+              <span class="dir-group__label">HALC Office Staff</span>
+              <span class="dir-group__line"></span>
+            </div>
+            <div class="dir-grid">
+          <div class="dir-card">
+            <span class="dir-card__name">Lissette Jourdain</span>
+            <span class="dir-card__role">HALC Director</span>
+          </div>
+          <div class="dir-card">
+            <span class="dir-card__name">Erika Monje Gonzalez</span>
+            <span class="dir-card__role">HALC Program Coordinator</span>
+          </div>
+          <div class="dir-card">
+            <span class="dir-card__name">Andrea Campos</span>
+            <span class="dir-card__role">HALC CUNY Office Assistant</span>
+          </div>
+            </div>
+          </div>
+
+          <!-- College Assistants -->
+          <div class="dir-group dir-group--asst reveal">
+            <div class="dir-group__header">
+              <span class="dir-group__label">HALC College Assistants</span>
+              <span class="dir-group__line"></span>
+            </div>
+            <div class="dir-grid">
+          <div class="dir-card">
+            <span class="dir-card__name">Allyah Gomez</span>
+            <span class="dir-card__role">HALC College Assistant</span>
+          </div>
+          <div class="dir-card">
+            <span class="dir-card__name">Amy Santos</span>
+            <span class="dir-card__role">HALC College Assistant</span>
+          </div>
+          <div class="dir-card">
+            <span class="dir-card__name">Charles Dour</span>
+            <span class="dir-card__role">HALC College Assistant</span>
+          </div>
+          <div class="dir-card">
+            <span class="dir-card__name">Marie Inamori</span>
+            <span class="dir-card__role">College Assistant · Tutor · Japanese</span>
+          </div>
+          <div class="dir-card">
+            <span class="dir-card__name">Yanilssa Taveras</span>
+            <span class="dir-card__role">HALC Workshops Facilitator</span>
+          </div>
+            </div>
+          </div>
+
+          <!-- Tutors -->
+          <div class="dir-group dir-group--tutors reveal">
+            <div class="dir-group__header">
+              <span class="dir-group__label">HALC Tutors</span>
+              <span class="dir-group__line"></span>
+            </div>
+            <div class="dir-grid">
+          <div class="dir-card">
+            <span class="dir-card__name">Abdou Gbadamassi</span>
+            <span class="dir-card__role">Tutor · Mathematics</span>
+          </div>
+          <div class="dir-card">
+            <span class="dir-card__name">Agossou Comlan</span>
+            <span class="dir-card__role">Tutor · Mathematics</span>
+          </div>
+          <div class="dir-card">
+            <span class="dir-card__name">Alexis Ondongo</span>
+            <span class="dir-card__role">Tutor · Mathematics</span>
+          </div>
+          <div class="dir-card">
+            <span class="dir-card__name">Anna Sakai</span>
+            <span class="dir-card__role">Tutor · Chemistry</span>
+          </div>
+          <div class="dir-card">
+            <span class="dir-card__name">Anthony Cruz</span>
+            <span class="dir-card__role">Tutor · Mathematics</span>
+          </div>
+          <div class="dir-card">
+            <span class="dir-card__name">Denisse Feliz</span>
+            <span class="dir-card__role">Tutor · Biology</span>
+          </div>
+          <div class="dir-card">
+            <span class="dir-card__name">Edward Hernandez</span>
+            <span class="dir-card__role">Tutor · Mathematics</span>
+          </div>
+          <div class="dir-card">
+            <span class="dir-card__name">Edwin Hernandez</span>
+            <span class="dir-card__role">Tutor · Mathematics</span>
+          </div>
+          <div class="dir-card">
+            <span class="dir-card__name">Emmanuel Asiamah</span>
+            <span class="dir-card__role">Tutor · Mathematics · Computer Science</span>
+          </div>
+          <div class="dir-card">
+            <span class="dir-card__name">Fathima Hussain</span>
+            <span class="dir-card__role">Tutor · Accounting · Business</span>
+          </div>
+          <div class="dir-card">
+            <span class="dir-card__name">Fouad Oukpedjo</span>
+            <span class="dir-card__role">Tutor · Psychology · Sociology</span>
+          </div>
+          <div class="dir-card">
+            <span class="dir-card__name">Harlet Lopez</span>
+            <span class="dir-card__role">Tutor · Chemistry · Nursing</span>
+          </div>
+          <div class="dir-card">
+            <span class="dir-card__name">Ira Freeland</span>
+            <span class="dir-card__role">Tutor · Chemistry</span>
+          </div>
+          <div class="dir-card">
+            <span class="dir-card__name">Jackson Li</span>
+            <span class="dir-card__role">Tutor · Economics · History · Mathematics</span>
+          </div>
+          <div class="dir-card">
+            <span class="dir-card__name">Jimmy Reyes</span>
+            <span class="dir-card__role">Tutor · Biology</span>
+          </div>
+          <div class="dir-card">
+            <span class="dir-card__name">Juan Chamorro</span>
+            <span class="dir-card__role">Tutor · Mathematics</span>
+          </div>
+          <div class="dir-card">
+            <span class="dir-card__name">Juan Carlos Perez</span>
+            <span class="dir-card__role">Tutor · History · Psychology · Sociology</span>
+          </div>
+          <div class="dir-card">
+            <span class="dir-card__name">Kashanti Keise</span>
+            <span class="dir-card__role">Tutor · Mathematics</span>
+          </div>
+          <div class="dir-card">
+            <span class="dir-card__name">Keyandra Bussey</span>
+            <span class="dir-card__role">Tutor · Biology · Chemistry</span>
+          </div>
+          <div class="dir-card">
+            <span class="dir-card__name">Lady Trejo</span>
+            <span class="dir-card__role">Tutor · Nutrition</span>
+          </div>
+          <div class="dir-card">
+            <span class="dir-card__name">Lissette Nunez</span>
+            <span class="dir-card__role">Tutor · Spanish</span>
+          </div>
+          <div class="dir-card">
+            <span class="dir-card__name">Mamadou Doumbia</span>
+            <span class="dir-card__role">Tutor · Mathematics</span>
+          </div>
+          <div class="dir-card">
+            <span class="dir-card__name">Maria Juarez Garcia</span>
+            <span class="dir-card__role">Tutor · Mathematics</span>
+          </div>
+          <div class="dir-card">
+            <span class="dir-card__name">Matar Diouf</span>
+            <span class="dir-card__role">Tutor · Electrical Circuits · Mathematics · Physics</span>
+          </div>
+          <div class="dir-card">
+            <span class="dir-card__name">Mohammed Hossain</span>
+            <span class="dir-card__role">Tutor · Chemistry · Mathematics</span>
+          </div>
+          <div class="dir-card">
+            <span class="dir-card__name">Nakia Benjamin</span>
+            <span class="dir-card__role">Tutor · Digital Design · Game Design</span>
+          </div>
+          <div class="dir-card">
+            <span class="dir-card__name">Rowan Desoky</span>
+            <span class="dir-card__role">Tutor · Biology · Chemistry</span>
+          </div>
+          <div class="dir-card">
+            <span class="dir-card__name">Temitope Ayeni</span>
+            <span class="dir-card__role">Tutor · Mathematics</span>
+          </div>
+          <div class="dir-card">
+            <span class="dir-card__name">Yassir Djossou</span>
+            <span class="dir-card__role">Tutor · French · Mathematics</span>
+          </div>
+          <div class="dir-card">
+            <span class="dir-card__name">Yedmy Batista</span>
+            <span class="dir-card__role">Tutor · Business · Economics</span>
+          </div>
+          <div class="dir-card">
+            <span class="dir-card__name">Pamela Paniagua</span>
+            <span class="dir-card__role">Tutor · Nursing</span>
+          </div>
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <section class="section opps-section" id="opportunities">
+      <div class="container">
+        <div class="section__header center reveal">
+          <span class="section__subtitle">Opportunities</span>
+          <h2 class="section__title">Become a Tutor at the HALC.</h2>
+        </div>
+      </div>
+
+      <div class="opps-stage">
+        <p class="opps-big-text" id="opps-text-out"></p>
+        <p class="opps-big-text" id="opps-text-in"></p>
+      </div>
+    </section>
+
+    <section class="section halc-section" id="halc">
+      <div class="container">
+        <div class="section__header center reveal">
+          <span class="section__subtitle">About</span>
+          <h2 class="section__title">Visit us at the HALC.</h2>
+        </div>
+      </div>
+
+      <div class="halc-stage">
+        <p class="halc-big-text" id="halc-text-out"></p>
+        <p class="halc-big-text" id="halc-text-in"></p>
+
+        <!-- Map: fades in only during the address line -->
+        <div class="halc-map-overlay" id="halc-map-overlay">
+          <div class="halc-map-embed">
+            <iframe
+              title="Hostos Community College location"
+              loading="lazy"
+              allowfullscreen
+              referrerpolicy="no-referrer-when-downgrade"
+              src="https://maps.google.com/maps?q=Hostos+Community+College+450+Grand+Concourse+Bronx+NY+10451&t=&z=17&ie=UTF8&iwloc=&output=embed">
+            </iframe>
+          </div>
+        </div>
+
+        <!-- Subway + bus pills: removed — pills are now inline in the scroll text -->
+      </div>
+    </section>
+
+    <section class="section about-section" id="about">
+      <div class="about-stage">
+        <!-- outgoing line (fades up out) -->
+        <p class="about-big-text" id="about-text-out"></p>
+        <!-- incoming line (rises in from below) -->
+        <p class="about-big-text" id="about-text-in"></p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <p>&copy; 2026 Jackson Li. All rights reserved. Developed for students at Hostos Community College and the Hostos Academic Learning Center (HALC).</p>
+    <p class="footer__terms">By using this website you agree to the <a href="terms.html">terms of use</a>.</p>
+  </footer>
+  <script src="assets/js/main.js"></script>
+  <script>
+    /* ── Directory scroll animations ──────────────────────────────────── */
+    (function () {
+      if (!('IntersectionObserver' in window)) {
+        // Fallback: just make everything visible immediately
+        document.querySelectorAll('.dir-group__header, .dir-card').forEach(el => el.classList.add('dir-visible'));
+        return;
+      }
+
+      /* Animate group headers as soon as they enter the viewport */
+      const headerObs = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('dir-visible');
+            headerObs.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.3 });
+
+      document.querySelectorAll('.dir-group__header').forEach(h => headerObs.observe(h));
+
+      /* Animate each grid of cards with per-card stagger */
+      const gridObs = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (!entry.isIntersecting) return;
+          const cards = entry.target.querySelectorAll('.dir-card');
+          cards.forEach((card, i) => {
+            card.style.transitionDelay = (i * 45) + 'ms';
+            card.classList.add('dir-visible');
+          });
+          gridObs.unobserve(entry.target);
+        });
+      }, { threshold: 0.08 });
+
+      document.querySelectorAll('.dir-grid').forEach(grid => gridObs.observe(grid));
+    })();
+  </script>
+</body>
+</html>

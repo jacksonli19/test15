@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/png" href="../hostos-sun-favicon.png">
+  <meta name="description" content="HIS 211 notes and resources for Hostos students.">
+  <title>HIS 211 | HALC</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Jost:wght@300;400;500;700&family=Nunito:wght@300;400;500;700&family=Petit+Formal+Script&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/styles.css">
+  <style>
+    /* ── HIS 211: category label styled like section__subtitle ── */
+    .article-hero__category--label {
+      border: none;
+      padding: 0;
+      background: transparent;
+      font-family: "Inter", sans-serif;
+      font-size: .78rem;
+      font-weight: 700;
+      letter-spacing: .09em;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, .82);
+      display: inline-block;
+      position: relative;
+      padding-bottom: .18rem;
+      margin-top: 0;
+      text-shadow: 0 1px 8px rgba(0,0,0,.7);
+    }
+    .article-hero__category--label:hover {
+      background: transparent;
+      color: rgba(255, 255, 255, .82);
+    }
+    /* Gold underline sweep */
+    .article-hero__category--label::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 100%;
+      height: 2px;
+      background: var(--gold-color);
+      border-radius: 999px;
+      transform: scaleX(0);
+      transform-origin: left center;
+      animation: splitintroBarGrow 0.9s cubic-bezier(.16,1,.3,1) 1.4s both;
+    }
+
+    /* ── Tighten the three stacked elements ── */
+    .course-his211 .article-hero__title {
+      padding-block: .6rem .45rem;
+    }
+    .course-his211 .article-hero__meta {
+      margin-top: 0;
+    }
+
+    /* ── Description: no gold sweep ── */
+    .article-hero__subtitle-label--plain {
+      color: rgba(255, 255, 255, .82);
+      font-weight: 700;
+      letter-spacing: .06em;
+    }
+    .article-hero__subtitle-label--plain::after {
+      display: none;
+    }
+
+    /* ── Notes: gold underline identical to main page nav__link::after ── */
+    .nav__dropdown-toggle.is-active {
+      color: #ffffff;
+      /* Switch off inline-flex so ::after positions exactly like other nav links */
+      display: inline-block;
+      position: relative;
+      padding-right: 1rem; /* space for caret */
+    }
+    .nav__dropdown-toggle.is-active::after {
+      content: "";
+      position: absolute;
+      background: var(--gold-color);
+      border-radius: 999px;
+      bottom: 0;
+      left: 0;
+      height: 2px;
+      width: 100%;
+      transform: scaleX(1);
+      transform-origin: left;
+    }
+    /* Keep caret positioned correctly inside the inline-block */
+    .nav__dropdown-toggle.is-active .nav__dropdown-caret {
+      position: absolute;
+      right: 0;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+  </style>
+</head>
+<body class="course-article course-his211">
+  <header class="header" id="header">
+    <nav class="nav container">
+      <a href="../index.html#home" class="nav__logo"><img src="../85aa596e3fba6a7ecd5890282c85e736.jpg" alt="Hostos Community College"></a>
+      <button class="nav__toggle" id="nav-toggle" aria-label="Open menu" aria-expanded="false"><span></span><span></span></button>
+      <div class="nav__menu" id="nav-menu">
+        <ul class="nav__list">
+          <li><a href="../index.html#home" class="nav__link">Home</a></li>
+          <li><a href="../index.html#objective-scroll" class="nav__link nav__link--rainbow">Objective</a></li>
+          <li><a href="../index.html#appointment" class="nav__link">Appointment</a></li>
+          <li class="nav__item nav__item--dropdown">
+            <a href="../index.html#math" class="nav__link nav__dropdown-toggle is-active" aria-haspopup="true" aria-expanded="false">
+              Notes
+              <svg class="nav__dropdown-caret" viewBox="0 0 12 8" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <path d="M1 1.5L6 6.5L11 1.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </a>
+            <ul class="nav__dropdown" id="nav-courses-dropdown">
+              <li><a href="../index.html#economics" class="nav__link nav__dropdown-link">Economics</a></li>
+              <li><a href="../index.html#history" class="nav__link nav__dropdown-link is-active">History</a></li>
+              <li><a href="../index.html#math" class="nav__link nav__dropdown-link">Mathematics</a></li>
+            </ul>
+          </li>
+          <li><a href="../index.html#directory" class="nav__link">Directory</a></li>
+          <li><a href="../index.html#opportunities" class="nav__link">Opportunities</a></li>
+          <li><a href="../index.html#halc" class="nav__link">About</a></li>
+          <li><a href="../index.html#about" class="nav__link">Author</a></li>
+        </ul>
+      </div>
+
+      <button class="theme-toggle" id="theme-toggle" aria-label="Toggle light mode">
+        <span class="theme-toggle__icon">☀</span>
+        <span class="theme-toggle__label">Light</span>
+      </button>
+    </nav>
+  </header>
+  <main class="article-page">
+    <section class="article-hero" style="--hero-image: url('../../assets/img/provided/history-us-ussr-flags.webp')">
+      <a href="his210.html" class="hero-corner hero-corner--back">← HIS 210</a>
+      <a href="mat150.html" class="hero-corner hero-corner--next">MAT 150 →</a>
+      <div class="article-hero__inner">
+        <a class="article-hero__category article-hero__category--label" href="../index.html#history">History</a>
+        <h1 class="article-hero__title">HIS 211</h1>
+        <div class="article-hero__meta"><span class="article-hero__subtitle-label article-hero__subtitle-label--plain">United States History: Reconstruction to the Present</span></div>
+        <div class="hero-action-row">
+          <a class="article-button" href="../Notes/HIS-211-notes.pdf">Open notes</a>
+          <a class="article-button" href="../index.html#appointment">Ask for help</a>
+        </div>
+      </div>
+    </section>
+  </main>
+  <script src="../assets/js/main.js"></script>
+  <script>
+    /* Patch updateNav so it always treats this subpage's section as current */
+    window.addEventListener('load', function() {
+      var toggle  = document.querySelector('.nav__dropdown-toggle');
+      var activeLink = document.querySelector('.nav__dropdown-link[href="../index.html#history"]');
+
+      /* Override the scroll-driven nav updater to always force our section */
+      var _origScroll = window.onscroll;
+      function forceActive() {
+        if (toggle)     toggle.classList.add('is-active');
+        if (activeLink) activeLink.classList.add('is-active');
+      }
+
+      /* Run after every scroll tick, after main.js updateNav has fired */
+      document.addEventListener('scroll', function() {
+        setTimeout(forceActive, 0);
+      }, { passive: true, capture: true });
+
+      /* Also run immediately and on load */
+      forceActive();
+      setTimeout(forceActive, 100);
+      setTimeout(forceActive, 300);
+    });
+  </script>
+</body>
+</html>
